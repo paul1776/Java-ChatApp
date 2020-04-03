@@ -18,8 +18,8 @@ public class ChattyChatChatClient {
     }
 
     public static void main(String[] args) {
-        String hostname = "localhost";
-        int port = 40000;
+        String hostname = args[0]; // Use "localhost" to run on your computer
+        int port = Integer.parseInt(args[1]); // Use a number like 40000 to run on your computer
         Socket socket = null;
 
         try {

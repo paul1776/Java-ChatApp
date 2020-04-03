@@ -13,7 +13,7 @@ public class ChattyChatChatServer {
     static int clientNumber = 0;
 
     public static void main(String[] args) {
-        int port = 40000;
+        int port = Integer.parseInt(args[0]); // Use something 40000 to run on your computer
         ServerSocket listener = null;
         boolean runServer = true;
 
