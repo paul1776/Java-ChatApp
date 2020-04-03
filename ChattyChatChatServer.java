@@ -71,23 +71,38 @@ public class ChattyChatChatServer {
 
                 while(!done) {
                     String input = in.readLine();
+                    String[] messageWords = input.split("\\s+");
 
-                    if ( input == null || input.toLowerCase().equals("/quit")) {
+                    if (input == null || messageWords[0] == "/quit") {
                         done = true;
-                        out.println(nickname + " has been disconnected.");
-                    }
-
-                    if (input.substring(0, 1).equals("/") && (input.length() > 5)) {
-                        if (input.toLowerCase().substring(0, 6).equals("/nick ")) {
-                            String old_nickname = nickname;
-                            nickname = input.substring(6);
-                            for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
-                              chatUser.out.println(old_nickname + " has changed their name to " + nickname + "!");
-                            }
-                            System.out.println(old_nickname + " changed to " + nickname);
+                        for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
+                            chatUser.out.println(nickname + " has left the chat.");
                         }
                     }
-                    else if ( input != null && !done ) {
+
+                    // Checking if the message is a command
+                    if (messageWords[0].contains("/dm")) {
+                        String send_minus_commands = "";
+                        for (int i = 2; i < messageWords.length; i++) {
+                            send_minus_commands += messageWords[i] + " ";
+                        }
+                        for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
+                            if ((chatUser.nickname.equals(messageWords[1])) || (chatUser.nickname == this.nickname)) {
+                                chatUser.out.println(nickname + " [DM]: " + send_minus_commands);
+                            }
+                        }
+                    } else if (messageWords[0].contains("/nick")) {
+                        if (messageWords.length > 1) {
+                            String old_nickname = nickname;
+                            nickname = messageWords[1];
+                            for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
+                                chatUser.out.println(old_nickname + " has changed their name to " + nickname + "!");
+                            }
+                            System.out.println(old_nickname + " changed to " + nickname);
+                        } else {
+                            out.println("Nickname could not be changed. The nickname you entered is incorrect.");
+                        }
+                    } else if (input != null && !done) {
                         // Write a for-loop to iterate through the vector above and send to each
                         for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
                             chatUser.out.println(nickname + ": " + input);
