@@ -64,8 +64,14 @@ public class ChattyChatChatClient {
                         try {
                             // read the message sent to this client
                             String response = in.readLine();
-                            printToScreen(false, response);
-                        } catch (Exception e) { System.out.println("Error connecting to server"); }
+                            if (response == null) {
+                                done = true;
+                                throw new IOException();
+                            }
+                            else{
+                                printToScreen(false, response);
+                            }
+                        } catch (IOException e) { System.out.println("Error connecting to server"); }
                     }
                 }
             });
@@ -73,7 +79,11 @@ public class ChattyChatChatClient {
             checkForMessages.start();
             checkForInput.start();
 
-            if (done) { socket.close(); }
+            if (done) {
+                socket.close();
+                checkForMessages.stop();
+                checkForInput.stop();
+            }
         } catch (IOException e) { System.out.println("Error connecting to server"); }
     }
 }

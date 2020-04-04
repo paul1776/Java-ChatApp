@@ -78,10 +78,7 @@ public class ChattyChatChatServer {
                         for (ChattyChatChatRunnable chatUser : ChattyChatChatServer.users) {
                             chatUser.out.println(nickname + " has left the chat.");
                         }
-                    }
-
-                    // Checking if the message is a command
-                    if (messageWords[0].contains("/dm")) {
+                    } else if (messageWords[0].contains("/dm")) {
                         String send_minus_commands = "";
                         for (int i = 2; i < messageWords.length; i++) {
                             send_minus_commands += messageWords[i] + " ";
