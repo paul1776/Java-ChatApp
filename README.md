@@ -87,5 +87,3 @@ The communication protocol for the chat clients and server obeys the following r
 The following files related to project logistics are present in the repository:
 - `README.md` which provides this specification.
 - `.gitignore` which specifies files git should NOT track.
-- `.travis.yml` which provides instructions to trigger Travis testing.
-- `travis` a directory containing the testing scripts.
